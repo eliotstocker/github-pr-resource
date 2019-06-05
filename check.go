@@ -34,6 +34,11 @@ Loop:
 			continue
 		}
 
+		// Filter to only requested PRs
+		if len(request.Source.Filter) > 0 && !contains(request.Source.Filter, p.Number) {
+		    continue
+		}
+
 		if request.Source.DisableForks && p.IsCrossRepository {
 			continue
 		}
@@ -167,4 +172,13 @@ func (r CheckResponse) Less(i, j int) bool {
 
 func (r CheckResponse) Swap(i, j int) {
 	r[i], r[j] = r[j], r[i]
+}
+
+func contains(arr []int, find int) bool {
+   for i := range arr {
+      if arr[i] == find {
+         return true
+      }
+   }
+   return false
 }
